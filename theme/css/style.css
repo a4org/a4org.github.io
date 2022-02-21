@@ -2,6 +2,11 @@ body {
     padding-top: 70px;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 .navbar-brand {
 /*     border: 1px solid red; */
     padding-top: 10px;
@@ -591,6 +596,4 @@ table.instructors img {
     table.instructors img {
         max-width: 60px;
     }
-}
-        
 }
