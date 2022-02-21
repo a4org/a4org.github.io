@@ -519,12 +519,6 @@ table.instructors img {
 }*/
     
 
-@media (max-width: 1024px) {
-    .sponsors img {
-        max-width: 150px;
-        height: auto;
-    }
-}
 
 @media (max-width: 600px) {
     .navbar-brand {
