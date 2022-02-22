@@ -7,3 +7,6 @@
 [submodule "OSDI"]
 	path = OSDI
 	url = https://github.com/Angold-4/OSDI.git
+[submodule "cs"]
+	path = cs
+	url = https://github.com/Angold-4/cs.git
