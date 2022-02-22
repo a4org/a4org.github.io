@@ -1,3 +1,6 @@
 [submodule "Webinar"]
 	path = Webinar
 	url = https://github.com/a4org/Webinar.git
+[submodule "ds"]
+	path = ds
+	url = https://github.com/Angold-4/ds.git

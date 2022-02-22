@@ -54,20 +54,25 @@ func main() {
 	panic(err)
     }
 
+    usrdir, uerr := os.UserHomeDir()
+    if uerr != nil {
+	log.Fatal(uerr)
+    }
+
     // #5 Final step, combine them into the target html file
     htmlf, err := os.OpenFile(htmlfile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
     if err != nil {
         log.Fatal(err)
     }
 
-    // article1, err1 := os.ReadFile("~/Library/a4md/article1.html")
-    article1, err1 := os.ReadFile("article1.html")
+    article1, err1 := os.ReadFile(usrdir + "/Library/a4md/article1.html")
+    // article1, err1 := os.ReadFile("article1.html")
     if err1 != nil {
 	log.Fatal(err1)
     }
 
-    // article2, err2 := os.ReadFile("~/Library/a4md/article2.html")
-    article2, err2 := os.ReadFile("article2.html")
+    article2, err2 := os.ReadFile(usrdir + "/Library/a4md/article2.html")
+    // article2, err2 := os.ReadFile("article2.html")
     if err2 != nil {
 	log.Fatal(err2)
     }
