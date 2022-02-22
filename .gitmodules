@@ -4,3 +4,6 @@
 [submodule "ds"]
 	path = ds
 	url = https://github.com/Angold-4/ds.git
+[submodule "OSDI"]
+	path = OSDI
+	url = https://github.com/Angold-4/OSDI.git
