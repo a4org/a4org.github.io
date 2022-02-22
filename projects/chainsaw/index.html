@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Angold-4 Organization</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="../../../images/favicon.png" rel="icon">
+
+<link rel="canonical" href=".">
+        <meta name="author" content="Angold Wang" />
+
+    <meta property="og:site_name" content="Angold-4" />
+<!--     <meta property="og:type" content="article"/> -->
+    <meta property="og:title" content="Angold-4 Organization"/>
+    <meta property="og:url" content="."/>
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="../../../theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="../../../theme/css/font-awesome.min.css" rel="stylesheet">
+<!--     <link href="https://cdnjs.cloudflare.com/ajax/libs/typicons/2.0.9/typicons.min.css" rel="stylesheet"> -->
+
+    <link href="../../../theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../theme/css/style.css" type="text/css"/>
+
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script> -->
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://angold4.org" class="navbar-brand">
+<img src="../../../images/logo.png" width="32"/> Angold4            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+			    <li><a href="../../../about.html">About</a>
+                            <li><a href="../../../blogs.html">Blogs</a>
+                            <li><a href="../../../projects.html">Projects</a>
+
+	    </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li> <a title="Youtube" href="https://www.youtube.com/channel/UC3ZAjh2LHhm-FrgxgBtgMzQ" target="_new"><i class="fa fa-youtube"></i> Youtube</a>
+		</li>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+	<section id="content" class="body">
+
+
+<h1>chainsaw: A Codeforces Command Line Tool</h1>
+<p>chainsaw is a small and faster drop-in replacement for your copy-paste and load while attending Codeforces contests. chainsaw is created for increasing
+competitive programmer productivity by reducing run sample test and submit time especially in real-time contests and the sites kind of lagging due to the traffic.</p>
+<h2>Why does the speed matter?</h2>
+<p>No matter you are a competitive programmer or a hobby coder, while attending a contest, you always want things to be as convenient as possible.
+A contest consists of three phases. In the first phase, you create all your <code>*.cpp</code> or any other language file. In the second phase, you write algorithms to solve that specific problem.
+In the third phase, you compile your program and run all sample tests from website to check whether your code is correct.</p>
+<p>The first phase and third phase are just repetitive copy and paste work, but it will waste a lot of time if you just do it by your self, and a little bit annoying. chainsaw can make it automatically, and much faster, saving your time and keeping you from being distracted while copy the test file from website and re-compile your program and check whether it is correct. The difference is most noticeable when you are in rapid fix/debug-edit-recompile cycles.</p>
+<h2>Install</h2>
+<p>chainsaw is written in C++17, so if you want to install chainsaw on your machine. you need a very recent version of GCC or Clang. I'm using macOS Monterey 12.1 as a development platform, I'm also testing that in Ubuntu 20.04 LTS, it can also install successfully. In that two environment, you can install chainsaw by the following commands:</p>
+<h4>Ubuntu 20.04 and later / macOS Monterey 12.1 and later</h4>
+<pre><code class="language-shell">git clone https://github.com/Angold-4/chainsaw.git
+
+cd chainsaw
+
+./install.sh
+</code></pre>
+<p>If no error reported, then restart your shell, now you can run chainsaw on your command line.</p>
+<p><img src="docs/chainsaw.png" alt="chainsaw"></p>
+<p>By default, <code>chainsaw</code> is installed to <code>/usr/local/bin</code></p>
+<h2>How to use</h2>
+<p><img src="docs/help.png" alt="help"></p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p><img src="docs/chainsawrun.gif" alt="chainsawrun"></p>
+<!-- raw HTML omitted -->
+<h2>Why is chainsaw so fast?</h2>
+<p>One reason is because it simply uses faster algorithms and efficient data structures. The other reason is that the sample tests generator is highly parallelized.</p>
+<p>I using <code>curl</code>, a very clean and simple library to fetch all html files, and using <code>pthread</code> to parallize the http Request, which means you can fetch 8 problems's html file just by costing one http request time.</p>
+<p>In my machine, the <code>chainsaw gen</code> command only costs <code>4</code> seconds for any kinds of contests in Codeforces, which is superfast.</p>
+<h1>Logo</h1>
+<p><img src="docs/cslogo.png" alt="chainsaw image"></p>
+<h2>Credits</h2>
+<ul>
+<li><strong><a href="https://github.com/gabrielsimoes/cfparser.vim">cfparser.vim</a></strong></li>
+</ul>
+	</section>
+	</div>
+    </div>
+</div>
+<footer>
+   <div class="well well-lg" id="footer-well">
+      <div class="container">
+
+
+      <div class="row">
+         <div class="col-xs-6">
+            <a href="https://angold4.org" title="Angold-4 Organization" class="image-link"><img src="../../../images/logo.png" class="cmudb-logo" /></a>
+         </div>
+         <div class="col-xs-6">
+            <p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p>
+        </div>
+      </div>
+   </div>
+   </div>
+</footer>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../../../theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="../../../theme/js/respond.min.js"></script>
+
+<!-- Fix scrolling issues to internal HREFs that get positioned behind navbar -->
+<!-- http://stackoverflow.com/questions/10732690/offsetting-an-html-anchor-to-adjust-for-fixed-header -->
+<script src="../../../theme/js/href_scroll.js"></script>
+
+<!-- You know what this is and you know what he did to me... -->
+<script src="../../../theme/js/tim-kraska-betrayed-me.js"></script>
+</body>
+</html>
