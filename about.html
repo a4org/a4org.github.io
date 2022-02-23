@@ -31,6 +31,8 @@
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script> -->
+
+
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -45,8 +47,8 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-			    <li><a href="./about.html">About</a>
-                            <li class = "active"><a href="./blogs.html">Blogs</a>
+			    <li class="active"><a href="./about.html">About</a>
+                            <li><a href="./blogs.html">Blogs</a>
                             <li><a href="./projects.html">Projects</a>
 	    </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -57,99 +59,69 @@
     </div>
 </div> <!-- /.navbar -->
 
+
 <div class="container">
+    <h1 class="entry-title">About</h1>
     <div class="row">
         <div class="col-lg-12">
+<section class="well well-sm course-info">
+    <div class="row">
+        <div class="col-sm-8">
+            <p></p>
 
+            <!-- INSTRUCTORS -->
+            <h2>Members</h2>
+            <table class="instructors table course-personnel">
+                <thead>
+                    <tr>
+                        <th class="personnel-photo"></th>
+                        <th class="personnel-name">Name</th>
+                        <th class="personnel-hours"></th>
+                        <th class="personnel-location">Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+<tr>
+    <td class="personnel-photo"><a onclick="javascript:pageTracker._trackPageview('/outgoing/www.cs.cmu.edu');" href="http://www.cs.cmu.edu/~pavlo" class="image-link" title="Prof. Andy Pavlo"><img src="./images/people/pavlo.jpg"></a></td>
+    <td class="personnel-name"><a onclick="javascript:pageTracker._trackPageview('/outgoing/www.cs.cmu.edu');" href="http://www.cs.cmu.edu/~pavlo">Prof. Andy Pavlo</a><BR/><em>Instructor</em></td>
+    <td class="personnel-hours">Monday 1:30-2:30</td>
+    <td class="personnel-location">GHC 9019</td>
+</tr><tr>
+    <td class="personnel-photo"><a onclick="javascript:pageTracker._trackPageview('/outgoing/www.cs.cmu.edu');" href="http://www.cs.cmu.edu/~mbutrovi" class="image-link" title="Matt Butrovich"><img src="./images/people/butrovich.jpg"></a></td>
+    <td class="personnel-name"><a onclick="javascript:pageTracker._trackPageview('/outgoing/www.cs.cmu.edu');" href="http://www.cs.cmu.edu/~mbutrovi">Matt Butrovich</a><BR/><em>Head TA</em></td>
+    <td class="personnel-hours">TBA</td>
+    <td class="personnel-location">TBA</td>
+</tr>                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-4 course-info-box">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Course Info</span></h4>
+                    <ul class="list-group course-info-list">
+                        <li> <b>Time:</b> Mon/Wed 12:00 - 1:20
+                        <li> <b>Location:</b> <a onclick="javascript:pageTracker._trackPageview('/outgoing/goo.gl');" href="https://goo.gl/maps/4DdirFt69ThA3KgD9">Newell Simon Hall 3002</a>
+                        <li> <b>On-line Discussion:</b> <a onclick="javascript:pageTracker._trackPageview('/outgoing/piazza.com');" href="https://piazza.com/cmu/spring2020/15721/home">Piazza</a>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-4 course-info-box">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><h4><i class="fa fa-heart fa-lg"></i><span class="icon-label">Acknowledgements</span></h4>
+                    <p class="acknowledgements">Thanks to the following organizations for equipment donations and/or support for course development.</p>
+                    <ul class="list-group course-info-list sponsors">
+                            <li> <a onclick="javascript:pageTracker._trackPageview('/outgoing/amazon.com');" href="https://amazon.com" title="Amazon (Sponsor)"><img src="./images/sponsors/amazon.svg"></a></li>
+                            <li> <a onclick="javascript:pageTracker._trackPageview('/outgoing/stevenmoyfoundation.org');" href="https://stevenmoyfoundation.org" title="Steven Moy Foundation for Keeping it Real (Sponsor)"><img src="./images/sponsors/smoy-foundation.svg"></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
 
-    <section id="content" class="body">
-        <h1 class="entry-title">Blogs</h1>
-        
-        <div class="entry-content">
-            <div class="container showcase">
-
-<!-- START SHOWCASE -->
-<!-- AUTO-GENERATED BY GENERATE-SCHEDULE SCRIPT -->
-<!-- ANY MODIFICATIONS WILL BE OVERWRITTEN -->
-
-<div class="row" id="project-ctes">
-<div class="col-sm-3">
-    <a href="./OSDI/index.html"><img src="./OSDI/Chapter/Chapter1/Sources/gnu_and_linux.png"></a>
-</div>
-<div class="col-sm-9">
-    <h3><a href="./OSDI/index.html">OSDI</a></h3>
-    <b>Contributor(s):</b>
-    <a href="https://github.com/Angold-4">Angold Wang</a>
-    <BR/>
-    <b>Source Repository:</b> <a href="https://github.com/Angold-4/OSDI">https://github.com/Angold-4/OSDI</a>
-    <p>"Operating System Design and Implementation, so-called "The Minix Book", this repo contains my notes while reading the book.</p>
-</div>
-</div>
-
-<div class="row" id="project-ctes">
-<div class="col-sm-3">
-    <a href="./ds/index.html"><img src="./ds/docs/lectures/Sources/replicacon.png"></a>
-</div>
-<div class="col-sm-9">
-    <h3><a href="./ds/index.html">ds</a></h3>
-    <b>Contributor(s):</b>
-    <a href="https://github.com/Angold-4">Angold Wang</a>
-    <BR/>
-    <b>Source Repository:</b> <a href="https://github.com/Angold-4/ds">https://github.com/Angold-4/ds</a>
-    <p>This part of notes contains some of my notes of studying <b>Distributed Systems</b>. Like notes for MIT.6.824 and some famous distributed systems papers</p>
-</div>
-</div>
-
-<div class="row" id="project-ctes">
-<div class="col-sm-3">
-    <a href="./os/index.html"><img src="./os/docs/lectures/Sources/ukmode.png"></a>
-</div>
-<div class="col-sm-9">
-    <h3><a href="./os/index.html">os</a></h3>
-    <b>Contributor(s):</b>
-    <a href="https://github.com/Angold-4">Angold Wang</a>
-    <BR/>
-    <b>Source Repository:</b> <a href="https://github.com/Angold-4/os">https://github.com/Angold-4/os</a>
-    <p>Another collection of my interests - <b>Operating Systems</b>.</p>
-</div>
-</div>
-
-
-<div class="row" id="project-ctes">
-<div class="col-sm-3">
-    <a href="./cs/index.html"><img src="./cs/docs/lectures/Sources/runtime.png"></a>
-</div>
-<div class="col-sm-9">
-    <h3><a href="./cs/index.html">cs</a></h3>
-    <b>Contributor(s):</b>
-    <a href="https://github.com/Angold-4">Angold Wang</a>
-    <BR/>
-    <b>Source Repository:</b> <a href="https://github.com/Angold-4/cs">https://github.com/Angold-4/cs</a>
-    <p>This part of notes are all about <b>Compilers</b>.</p>
-</div>
-</div>
-
-
-<div class="row" id="project-ctes">
-<div class="col-sm-3">
-    <a href="./Webinar/index.html"><img src="./images/banner.jpg"></a>
-</div>
-<div class="col-sm-9">
-    <h3><a href="./Webinar/index.html">Webinar</a></h3>
-    <b>Contributor(s):</b>
-    <a href="https://github.com/Angold-4">Angold Wang</a>, 
-    <a href="https://github.com/fds-1">Shuo Feng</a>
-    <BR/>
-    <b>Source Repository:</b> <a href="https://github.com/a4org/Webinar">https://github.com/a4org/Webinar</a>
-    <p>Collection of All Previous A4 Webinar slides :)</p>
-</div>
-</div>
-
-    </section>
+    </div>
+</section>
 	</div>
     </div>
 </div>
-
 <footer>
    <div class="well well-lg" id="footer-well">
       <div class="container">

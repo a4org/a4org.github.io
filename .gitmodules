@@ -10,3 +10,6 @@
 [submodule "cs"]
 	path = cs
 	url = https://github.com/Angold-4/cs.git
+[submodule "os"]
+	path = os
+	url = https://github.com/Angold-4/os.git
