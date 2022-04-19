@@ -35,4 +35,6 @@ fi
 
 sudo cp article1.html ~/Library/a4md/article1.html
 sudo cp article2.html ~/Library/a4md/article2.html
+sudo cp article3.html ~/Library/a4md/article3.html
+sudo cp article4.html ~/Library/a4md/article4.html
 
