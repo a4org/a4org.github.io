@@ -101,8 +101,13 @@ pre {
     margin-right: 3px;
 }
 
-a, a:hover {
-    color: inherit;
+a {
+    color: #4679A1;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #4679A1;
 }
 
 .entry-title {
@@ -116,6 +121,7 @@ a, a:hover {
 
 .entry-content a:hover {
     text-decoration: none;
+    color: #4679A1;
     border-bottom: 1px solid;
 }
 
