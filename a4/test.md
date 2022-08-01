@@ -10,6 +10,13 @@ This note is an extra part of prev **[OSDI 6. Interrupt](https://github.com/Ango
 
 ![status](Sources/status.png)
 
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage[utf8]{inputenc}
+
+\title{First document}
+\author{Hubert Farnsworth \thanks{funded by the Overleaf team}}
+\date{February 2017}
+
 ## 1. TSS
 
 ### i. Real Mode VS. Protect Mode
@@ -171,6 +178,15 @@ restart1:
 ```
 
 
+When $a \ne 0$, there are two solutions to $ax^2 + bx + c = 0$ and they are 
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+
+$$
+f(n) =
+\begin{cases}
+n/2,  & \text{if $n$ is even} \\\\ 3n+1, & \text{if $n$ is odd}
+\end{cases}
+$$
 
 
 

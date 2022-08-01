@@ -26,6 +26,7 @@ if [[ -e /usr/local/bin/a4md ]]; then
 fi
 sudo cp a4md /usr/local/bin/a4md
 
+g++ -std=c++17 main.cpp -o ~/Library/a4md/a4filter
 
 if [[ ! -e $dir ]]; then
     mkdir $dir

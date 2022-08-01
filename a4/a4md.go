@@ -2,9 +2,10 @@ package main
 
 import (
     "io/ioutil"
-    "bytes"
-    "github.com/yuin/goldmark"
+    // "bytes"
+    // "github.com/yuin/goldmark"
     "log"
+    "os/exec"
     "os"
     "fmt"
 )
@@ -23,6 +24,7 @@ func main() {
   var mdfile string
   var path string
   var comment bool
+  bufile := "tmp.html"
   comment = false;
   mdfile = os.Args[1]
 
@@ -60,21 +62,56 @@ func main() {
   htmlfile += ".html"
   fmt.Printf(htmlfile)
 
-  // #4 md -> html (using goldmark)
-  var buf bytes.Buffer
-  content, err := ioutil.ReadFile(mdfile)
-  if err != nil {
-      log.Fatal(err)
-  }
-
-  if err := goldmark.Convert(content, &buf); err != nil {
-      panic(err)
-  }
-
   usrdir, uerr := os.UserHomeDir()
   if uerr != nil {
       log.Fatal(uerr)
   }
+
+
+  // #4 md -> html (using pandoc)
+  // pandoc --toc --standalone --mathjax -f markdown -t html test.md -o test.html 
+  app := "pandoc"
+  arg0 := "--toc"
+  arg1 := "--standalone"
+  arg2 := "--mathjax"
+  arg3 := "-f"
+  arg4 := "markdown"
+  arg5 := "-t"
+  arg6 := "html"
+  arg7 := mdfile
+  arg8 := "-o"
+  arg9 := bufile
+
+  cmd := exec.Command(app, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
+  stdout, err := cmd.Output()
+  
+  if err != nil {
+    fmt.Println(err.Error())
+    return
+  }
+
+  // Print the output
+  fmt.Println(string(stdout))
+
+  app = usrdir + "/Library/a4md/a4filter"
+  cmd = exec.Command(app)
+
+  stdout, err = cmd.Output()
+  
+  if err != nil {
+    fmt.Println(err.Error())
+    return
+  }
+
+  // Print the output
+  fmt.Println(string(stdout))
+
+
+  content, err := ioutil.ReadFile("out.html")
+  if err != nil {
+      log.Fatal(err)
+  }
+
 
   // #5 Final step, combine them into the target html file
   htmlf, err := os.OpenFile(htmlfile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
@@ -124,7 +161,7 @@ func main() {
 	log.Fatal(errw1)
     }
 
-    if _, errwmd := htmlf.Write(buf.Bytes()); err != nil {
+    if _, errwmd := htmlf.Write(content); err != nil {
 	log.Fatal(errwmd)
     }
 
@@ -162,7 +199,7 @@ func main() {
 	log.Fatal(errw1)
     }
 
-    if _, errwmd := htmlf.Write(buf.Bytes()); err != nil {
+    if _, errwmd := htmlf.Write(content); err != nil {
 	log.Fatal(errwmd)
     }
 
@@ -174,4 +211,26 @@ func main() {
 	log.Fatal(htmlerr)
     }
   }
+
+  app = "sudo"
+  arg0 = "rm"
+  arg1 = "-rf"
+  arg2 = "tmp.html"
+  arg3 = "out.html"
+
+  cmd = exec.Command(app, arg0, arg1, arg2)
+
+  stdout, err = cmd.Output()
+
+  cmd = exec.Command(app, arg0, arg1, arg3)
+
+  stdout, err = cmd.Output()
+  
+  if err != nil {
+    fmt.Println(err.Error())
+    return
+  }
+
+  // Print the output
+  fmt.Println(string(stdout))
 }
