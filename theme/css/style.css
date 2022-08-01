@@ -15,24 +15,28 @@ img {
 .navbar-nav {
     margin-top: 4px;
 }
+
+h1 {
+  font-size: 220%;
+}
 h2 {
     border-bottom: 1px solid #CCC;
     padding-bottom: 5px;
-    font-size: 160%;
+    font-size: 200%;
 }
 h3 {
-    font-size: 140%;
+    font-size: 180%;
     font-weight: bold;
 }
 
 h4 {
-    font-size: 120%;
+    font-size: 160%;
     font-weight: bold;
 }
 
 
 h5 {
-    font-size: 110%;
+    font-size: 140%;
     font-weight: bold;
 }
 pre {
@@ -53,7 +57,7 @@ pre {
    padding of the last item, b/c the containing item has paddimg already 
  */
 .list-group-item .list-group-item:last-child {
-    padding-bottom: 0px;
+    padding-bo2tom: 0px;
 }
 
 .list-group-item {
@@ -547,7 +551,7 @@ table.instructors img {
         margin-top: 12px;
     }
     h1 {
-        font-size: 180%;
+        font-size: 200%;
     }
     .table {
         font-size: 70%;
@@ -585,7 +589,7 @@ table.instructors img {
         background-size: 8px 8px;
     }*/
     #banner h1 {
-        font-size: 175%;
+        font-size: 200%;
     }
     .course-info p {
         font-size: 95%;
