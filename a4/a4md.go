@@ -212,17 +212,12 @@ func main() {
     }
   }
 
-  app = "sudo"
   arg0 = "rm"
   arg1 = "-rf"
   arg2 = "tmp.html"
   arg3 = "out.html"
 
-  cmd = exec.Command(app, arg0, arg1, arg2)
-
-  stdout, err = cmd.Output()
-
-  cmd = exec.Command(app, arg0, arg1, arg3)
+  cmd = exec.Command(arg0, arg1, arg2, arg3)
 
   stdout, err = cmd.Output()
   
