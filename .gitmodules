@@ -16,3 +16,6 @@
 [submodule "bs"]
 	path = bs
 	url = https://github.com/Angold-4/bs.git
+[submodule "radar-index"]
+	path = radar-index
+	url = https://github.com/a4org/radar-index.git
