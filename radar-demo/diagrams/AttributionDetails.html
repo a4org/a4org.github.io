@@ -1,0 +1,289 @@
+<!--
+Copyright (c) 2023 Angold WANG (awang at angold4 dot org)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+
+<!-- AttributionSpatial -->
+<:Window bind:innerWidth="winWidth" bind:scrollY="scrollY" />
+
+<div ref:container class="container">
+  <div class="legend_container">
+    <div class="legend">
+
+<div class="input">
+        <h4 class="heading">{{($category == 'stock') ? '輸入個股名稱' : '輸入行業名稱'}}</h4>
+<input type="text" value="{{searchInput}}" on:input="updateSuggestions(event)">
+<ul class="suggestions-list">
+  {{#each suggestions as suggestion}}
+    <li class="suggestion-item" on:click="set({ searchInput: suggestion })">{{suggestion}}</li>
+  {{/each}}
+</ul>
+<button on:click="handleSearch()">Search</button>
+</div>
+      <div>
+        <h4 class="heading">技術分析</h4>
+        <ul class="attribution_list {{(layer_hover != undefined && layer_hover_n < 4)? 'attribution_active' : ''}}" on:mouseout="set({layer_hover: undefined, pos_hover: undefined})">
+        {{#each $tech_labels as label, i}}
+          <li class="list-item">
+            <b><span>{{label}}</span></b>
+            <div class="scent">
+            <div style="width: {{ 100 * (((($cdb3_data[0][label]-$cdb3_attrmin[label])/($cdb3_attrmax[label]-$cdb3_attrmin[label])) < 0) ? -1 * (($cdb3_data[0][label]-$cdb3_attrmin[label])/($cdb3_attrmax[label]-$cdb3_attrmin[label])) : (($cdb3_data[0][label]-$cdb3_attrmin[label])/($cdb3_attrmax[label]-$cdb3_attrmin[label]))) }}%;}}"></div>
+            </div>
+          </li>
+        {{/each}}
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="heading">基本分析</h4>
+        <div class="factors_bars">
+        <ul class="factors_1 attribution_list" on:mouseout="set({layer_hover: undefined, pos_hover: undefined})">
+        {{#each $fund_labels.slice(0, 3) as label, i}}
+        <li class="list-item">
+        <b><span>{{label}}: </span></b>
+        <div class="scent">
+          <div style="width: {{ 100 * (((($cdb3_data[0][label]-$cdb3_attrmin[label])/($cdb3_attrmax[label]-$cdb3_attrmin[label])) < 0) ? -1 * (($cdb3_data[0][label]-$cdb3_attrmin[label])/($cdb3_attrmax[label]-$cdb3_attrmin[label])) : (($cdb3_data[0][label]-$cdb3_attrmin[label])/($cdb3_attrmax[label]-$cdb3_attrmin[label]))) }}%;}}"></div>
+        </div>
+        </li>
+        {{/each}}
+        </ul>
+
+        <ul class="factors_2 attribution_list" on:mouseout="set({layer_hover: undefined, pos_hover: undefined})">
+        {{#each $fund_labels.slice(3, 6) as label, i}}
+        <li class=list-item>
+        <b><span>{{label}}: </span></b>
+        <div class="scent">
+          <div style="width: {{ 100 * (((($cdb3_data[0][label]-$cdb3_attrmin[label])/($cdb3_attrmax[label]-$cdb3_attrmin[label])) < 0) ? -1 * (($cdb3_data[0][label]-$cdb3_attrmin[label])/($cdb3_attrmax[label]-$cdb3_attrmin[label])) : (($cdb3_data[0][label]-$cdb3_attrmin[label])/($cdb3_attrmax[label]-$cdb3_attrmin[label]))) }}%;}}"></div>
+        </div>
+        </li>
+          {{/each}}
+        </ul>
+  </div>
+
+</div>
+</div>
+</div>
+    <div class="pictures_container">
+      <img src="diagrams/pic1.png" alt="Picture 1" class="picture picture_left" />
+      <img src="diagrams/pic2.png" alt="Picture 2" class="picture picture_right" />
+    </div>
+</div>
+
+<style> 
+  .container { 
+    margin: 20px 0; 
+  } 
+  .legend_container { 
+    margin: 0 10px; 
+    width: 100%;
+  } 
+  .hidden_layers { 
+    position: relative; 
+  } 
+  .layer img { 
+    position: absolute; 
+    mix-blend-mode: multiply; 
+    image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */ 
+    image-rendering: -moz-crisp-edges;          /* Firefox                        */ 
+    image-rendering: -o-crisp-edges;            /* Opera                          */ 
+    image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */ 
+    image-rendering: pixelated; /* Chrome */ 
+    image-rendering: optimize-contrast;         /* CSS3 Proposed                  */ 
+    -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */    
+  } 
+  .layer p { 
+    margin-top: calc(var(--layer-size) + 10px); 
+    margin-bottom: 0; } div[slot='foreground'] 
+  .outer { 
+    position: absolute; 
+    pointer-events: none; 
+    mix-blend-mode: multiply; 
+    image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */ 
+    image-rendering: -moz-crisp-edges;          /* Firefox                        */ 
+    image-rendering: -o-crisp-edges;            /* Opera                          */ 
+    image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */ 
+    image-rendering: pixelated; /* Chrome */ 
+    image-rendering: optimize-contrast;         /* CSS3 Proposed                  */ 
+    -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
+    opacity: 0.9;
+  }
+
+  .legend {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 2fr;
+    grid-gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto 20px auto;
+  }
+
+  .legend > * {
+    flex: 1;
+  }
+
+  .input_image {
+    height: 150px;
+    width: auto;
+    border-radius: var(--border-radius);
+  }
+
+  .example_picker {
+    position: absolute;
+    top: 0;
+    right: -15px;
+    width: 110px;
+    line-height: 1;
+  }
+
+  .example_picker img { 
+    width: 40px;
+    margin: 2px; 
+  }
+
+
+  h4 {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 8px;
+    margin: 0 0 10px;
+    font-weight: 700;
+  }
+
+  .factors_bars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+  }
+
+
+  .attribution_list { 
+    font-size: 13px;
+    margin-top: -8px;
+    width: 100%;
+  }
+
+  .attribution_list li { 
+    cursor: pointer; 
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-column-gap: 10px;
+    margin-bottom: 0;
+    text-transform: capitalize;
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 8px;
+  }
+ 
+  .attribution_list li:hover, .attribution_active li { color: #000; }
+  .attribution_list li:hover .scent div, .attribution_active li .scent div { background: #666; }
+
+  .factors_1 .scent div { background: #f4a582; }
+  .factors_1 li:hover { color: #e66101; }
+  .factors_1 li:hover .scent div { background: #e66101; }
+
+  .factors_2 .scent div { background: #92c5de; }
+  .factors_2 li:hover { color: #0571b0; }
+  .factors_2 li:hover .scent div { background: #0571b0; }
+  
+  .interactive-caption a {
+    cursor: pointer;
+  }
+
+  .interactive-caption .selected {
+    color: hsl(24, 100%, 50%);
+    border-bottom: 1px solid hsl(24, 100%, 50%);
+    text-shadow: 0.5px 0 0 hsl(24, 100%, 50%);
+  }
+  
+  .hidden_layer_labels .layer_name {
+    text-transform: none;
+  }
+
+  .pictures_container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .picture {
+    width: calc(50% - 10px); /* 10px is half the gap between the images */
+    height: auto;
+    object-fit: cover;
+  }
+
+  .picture_left {
+    margin-right: 10px;
+  }
+
+  .picture_right {
+    margin-left: 10px;
+  }
+
+.input-container {
+  position: relative;
+}
+
+.suggestions-list {
+  max-height: 50px;
+  overflow-y: scroll;
+}
+
+.input {
+  align-items: center;
+}
+.suggestion-item {
+  font-weight: bold;
+  padding: 1px 2px;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f1f1; /* Add a subtle border between suggestions */
+  font-size: 6px;
+  box-sizing: border-box;
+}
+
+.suggestion-item:hover {
+  background-color: #f1f1f1;
+}
+</style>
+
+<script>
+export default {
+  data() {
+    return {
+      searchInput: "",
+      suggestions: [],
+      NAME: "",
+      cdb3_name: ["1 HK/ 長和", "101 HK/ 恒隆地產", "1038 HK/ 長江基建集團", "1044 HK/ 恒安國際", "1088 HK/ 中國神華", "1093 HK/ 石藥集團", "11 HK/ 恒生銀行", "1109 HK/ 華潤置地", "1113 HK/ 長實集團", "1177 HK/ 中國生物製藥", "12 HK/ 恒基地產", "1209 HK/ 華潤萬象生活", "1211 HK/ 比亞迪股份", "1288 HK/ 農業銀行", "1299 HK/ 友邦保險", "1378 HK/ 中國宏橋", "1398 HK/ 工商銀行", "16 HK/ 新鴻基地產", "1658 HK/ 郵儲銀行", "17 HK/ 新世界發展", "175 HK/ 吉利汽車", "1810 HK/ 小米集團", "1876 HK/ 百威亞太", "1928 HK/ 金沙中國有限公司", "1929 HK/ 周大福", "2 HK/ 中電控股", "2007 HK/ 碧桂園", "2020 HK/ 安踏體育", "2269 HK/ 藥明生物", "2313 HK/ 申洲國際", "2318 HK/ 中國平安", "2319 HK/ 蒙牛乳業", "2331 HK/ 李寧", "2382 HK/ 舜宇光學科技", "2388 HK/ 中銀香港", "241 HK/ 阿里健康", "2628 HK/ 中國人壽", "267 HK/ 中信股份", "2688 HK/ 新奧能源控股有限公司", "288 HK/ 萬洲國際", "291 HK/ 華潤啤酒", "3 HK/ 香港中華煤氣", "316 HK/ 東方海外國際", "3328 HK/ 交通銀行", "3690 HK/ 美團－Ｗ", "3692 HK/ 翰森制藥", "386 HK/ 中國石油化工股份", "388 HK/ 香港交易所", "3968 HK/ 招商銀行", "3988 HK/ 中國銀行", "5 HK/ 匯豐控股", "6 HK/ 電能實業", "6098 HK/ 碧桂園服務", "6186 HK/ 中國飛鶴", "66 HK/ 港鐵公司", "6618 HK/ 京東健康", "669 HK/ 創科實業", "6690 HK/ 海爾智家", "6862 HK/ 海底撈", "688 HK/ 中國海外發展", "700 HK/ 騰訊控股", "762 HK/ 中國聯通", "857 HK/ 中國石油股份", "868 HK/ 信義玻璃", "881 HK/ 中升控股", "883 HK/ 中國海洋石油", "939 HK/ 建設銀行", "941 HK/ 中國移動", "960 HK/ 龍湖集團", "9633 HK/ 農夫山泉", "968 HK/ 信義光能", "981 HK/ 中芯國際", "992 HK/ 聯想集團"]
+    };
+  },
+  methods: {
+    handleSearch() {
+      this.set({ NAME: this.get('searchInput') });
+    },
+    updateSuggestions(event) {
+      const searchInput = event.target.value;
+      console.log(searchInput)
+      this.set({ searchInput });
+      const suggestions = this.get('cdb3_name').filter((name) => name.includes(searchInput));
+      this.set({ suggestions });
+    },
+  oncreate() {
+    this.updateSuggestions();
+  }
+  }
+};
+</script>
