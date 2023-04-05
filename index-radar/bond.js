@@ -23,21 +23,18 @@ function figure3() {
     var width = chart_width;
     var height = chart_height + indicator_box_top_padding + indicator_image_padding + indicator_image_size + chart_padding;
     
-    var base_image_name = 'goldfinch';
+    var base_image_name = '美國國債孳息曲線(10-2年)';
     var current_data = null;
+
     var bar_colors = {
-        'goldfinch': 'rgb(233, 205, 73)',
-        'rubber_eraser': 'rgb(211, 86, 42)',
-        'house_finch': 'rgb(100, 92, 77)',
-        'killer_whale': 'rgb(12, 16, 19)'
+        '美國國債孳息曲線(10-2年)': 'rgb(233, 205, 73)',
+        'JPM環球高風險債利差': 'rgb(211, 86, 42)',
     }
+
     var indicator_data = [
-        { x: 0, y: 0, id: 'goldfinch', opacity: 1.0},
-        { x: indicator_image_size + indicator_image_padding, y: 0, id: 'rubber_eraser', opacity: 0.2 },
-        { x: 2 * (indicator_image_size + indicator_image_padding), y: 0, id: 'house_finch', opacity: 0.2 },
-        { x: 3 * (indicator_image_size + indicator_image_padding), y: 0, id: 'killer_whale', opacity: 0.2 }
+        { x: 0, y: 0, id: '美國國債孳息曲線(10-2年)', opacity: 1.0},
+        { x: indicator_image_size + indicator_image_padding, y: 0, id: 'JPM環球高風險債利差', opacity: 0.2 },
     ]
-    
     var container = d3.select('#bond')
                         .append('svg')
                         .attr('width',  '100%')
@@ -90,25 +87,27 @@ function figure3() {
     
     function draw_chart(data, should_init) {
         current_data = data;
-        var x = d3.scaleLinear()
+        var x = d3.scaleTime()
             .range([0, chart_width])
-            .domain([0.0, 1.0]);
-            
+            .domain(d3.extent(current_data, function(d) { return new Date(d.Date); }));
+
         var y = d3.scaleLinear()
-            .range([chart_height, 0])
-            .domain([0.0, 1.0]);
-        
+        .range([chart_height, 0])
+        .domain([d3.min(current_data, function(d) { return Math.min(+d['美國國債孳息曲線(10-2年)'], +d['JPM環球高風險債利差']); }),
+          d3.max(current_data, function(d) { return Math.max(+d['美國國債孳息曲線(10-2年)'], +d['JPM環球高風險債利差']); })]);
+            
         var line = d3.line()
-            .x(function(d) { return x(+d.alpha) })
+            .x(function(d) { return x(new Date(d.Date)) }) // Use date for x-axis
             .y(function(d) { return y(+d[[base_image_name]])})
             .curve(d3.curveMonotoneX);
+    
         
         if (should_init) {
             var xaxis = chart_group.append('g')
                 .attr('class', 'axis axis--x')
                 .attr('transform', `translate(0, ${chart_height})`)
                 .attr('id', 'chart-x-axis')
-                .call(d3.axisBottom(x));
+                .call(d3.axisBottom(x).ticks(d3.timeMonth.every(1)).tickFormat(d3.timeFormat('%m/%Y')));
             
             var yaxis = chart_group.append('g')
                 .attr('class', 'axis axis--y')
@@ -129,21 +128,21 @@ function figure3() {
                 .attr('stroke', 'gray')
                 .attr('stroke-width', '1px')
                 .attr('stroke-opacity', 0.3);
-                
-            chart_group.append('g')
-                .attr('id', 'grid_markings_vert')    
-                .selectAll('line.verticalGrid').data(y.ticks()).enter()
-                .append('line')
-                .attr('class', 'verticalGrid')
-                .attr('x1', function(d) { return x(d) + 0.5; })
-                .attr('x2', function(d) { return x(d) + 0.5; })
-                .attr('y1', 0)
-                .attr('y2', chart_height)
-                .attr('shape-rendering', 'crispEdges')
-                .attr('fill', 'none')
-                .attr('stroke', 'gray')
-                .attr('stroke-width', '1px')
-                .attr('stroke-opacity', 0.3);
+
+          chart_group.append('g')
+              .attr('id', 'grid_markings_vert')    
+              .selectAll('line.verticalGrid').data(x.ticks()).enter()
+              .append('line')
+              .attr('class', 'verticalGrid')
+              .attr('x1', function(d) { return x(d) + 0.5; })
+              .attr('x2', function(d) { return x(d) + 0.5; })
+              .attr('y1', 0)
+              .attr('y2', chart_height)
+              .attr('shape-rendering', 'crispEdges')
+              .attr('fill', 'none')
+              .attr('stroke', 'gray')
+              .attr('stroke-width', '1px')
+              .attr('stroke-opacity', 0.3);
                 
             var path = chart_group.append('path')
                 .datum(current_data)
@@ -154,54 +153,45 @@ function figure3() {
                 .attr('stroke', bar_colors[[base_image_name]])
                 .attr('stroke-width', 4);
             
-            var focus = chart_group.append("g")
-                .style("display", "none");
-
-            var focus_circle = focus.append("circle")
-              .attr("r", 5);
-        
             var w = tooltip_image_size - 10;
             var h = tooltip_image_size - 10;
-            focus.append('path')
-                .attr("fill", "white")
-                .attr("stroke", "black")
-                .attr('transform', `translate(0, 10)`)
-                .attr("d", `M${-w / 2 - 10},5H-5l5,-5l5,5H${w / 2 + 10}v${h + 20}h-${w + 20}z`);
-                  
-            var focus_image = focus.append('image')
-                .attr("width", tooltip_image_size)
-                .attr("height", tooltip_image_size)
-                .attr("x", -tooltip_image_size / 2)
-                .attr("y", 20);
 
-            chart_group.append("rect")
-              .attr("fill", "none")
-              .attr("pointer-events", "all")
-              .attr("width", chart_width)
-              .attr("height", chart_height)
-              .on("mouseover", function() { focus.style("display", null); })
-              .on("mouseout", function() { focus.style("display", "none"); })
-              .on("mousemove", mousemove);
-              
-            var bisectAlpha = d3.bisector(function(d) { return d.alpha; }).left;
-            
-            function mousemove() {
-              var x0 = x.invert(d3.mouse(this)[0]);
-              
-              var i = bisectAlpha(current_data, x0, 1);
-              var d0 = current_data[i - 1];
-              var d1 = current_data[i];
-              var d = x0 - d0.alpha > d1.alpha - x0 ? d1 : d0;
-              
-              var alpha_val = Number((Math.floor(+d.alpha * 50) / 50).toFixed(2));
-              var base_dir = `data_gen/data/${base_image_name}/integrated_gradients/`;
-              var interp_im_file = 'interpolated_image_';
-              var interp_file = base_dir + interp_im_file + alpha_val.toFixed(2) + '.png';
-              
-              focus_circle.attr('fill', bar_colors[[base_image_name]]);
-              focus.attr("transform", "translate(" + x(d.alpha) + "," + y(d[[base_image_name]]) + ")");
-              focus_image.attr('xlink:href', interp_file);
-            }
+var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0)
+    .style("position", "absolute");
+
+chart_group.append("rect")
+    .attr("fill", "none")
+    .attr("pointer-events", "all")
+    .attr("width", chart_width)
+    .attr("height", chart_height)
+    .on("mouseover", function() { tooltip.style("opacity", 1); })
+    .on("mouseout", function() { tooltip.style("opacity", 0); })
+    .on("mousemove", mousemove);
+
+var bisectDate = d3.bisector(function(d) { return new Date(d.Date); }).left;
+
+function mousemove() {
+        return;
+  var x0 = x.invert(d3.mouse(this)[0]);
+  var i = bisectDate(current_data, x0, 1);
+  var d0 = current_data[i - 1];
+  var d1 = current_data[i];
+
+  if (d0 === undefined || d1 === undefined) {
+      return;
+  }
+
+  var d = x0 - new Date(d0.Date) > new Date(d1.Date) - x0 ? d1 : d0;
+
+  tooltip.html("Date: " + d3.timeFormat("%Y-%m-%d")(new Date(d.Date)) + "<br/>Price: " + d[base_image_name])
+      .style("left", (d3.event.pageX + 10) + "px")
+      .style("top", (d3.event.pageY - 28) + "px")
+      .style("opacity", 1);
+}
+
+
         }
         else {
             var transition_duration = 500;
@@ -213,6 +203,9 @@ function figure3() {
                 .transition(mark_transition)
                 .attr('d', line)
                 .attr('stroke', bar_colors[[base_image_name]])
+            chart_group.select('#chart-x-axis')
+                .transition(mark_transition)
+                .call(d3.axisBottom(x).ticks(d3.timeMonth.every(1)).tickFormat(d3.timeFormat('%m/%Y')));
         }
     }
     
@@ -242,7 +235,7 @@ function figure3() {
         .attr('width', indicator_image_size)
         .attr('height', indicator_image_size)
         .attr('xlink:href', function(d) {
-            return 'data_gen/data/' + d.id + '/integrated_gradients/interpolated_image_1.00.png';
+            return 'images/jpm.webp';
         })
         .attr('id', function(d) { return d.id; })
         .attr('x', function(d) { return d.x; })
@@ -250,6 +243,12 @@ function figure3() {
         .attr('opacity', function(d) { return d.opacity; })
         .on('click', select_new_image);
     
-    d3.csv('output_alpha.csv').then(function(data) { draw_chart(data, true) });
+    d3.csv('macroindicators.csv').then(function(data) { 
+      data.forEach(function(d) {
+          d.Date = d3.timeParse('%m/%d/%Y')(d.Date);
+      });
+      draw_chart(data, true) 
+    });
 }
+
 figure3();

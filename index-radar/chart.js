@@ -20,11 +20,11 @@ function draw_chart(data, labels, containerId, selectId) {
         .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom + sliderHeight + sliderPadding}`);
 
     var line_chart = container
-    .append('g')
-    .attr('id', 'line_chart')
-    .attr('width', width)
-    .attr('height', height)
-    .attr('transform', `translate(${margin.left}, ${margin.top})`);
+      .append('g')
+      .attr('id', 'line_chart')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
     var x = d3.scaleTime()
     .range([0, width])
@@ -45,10 +45,12 @@ function draw_chart(data, labels, containerId, selectId) {
     .x(function(d) { return x(d.StrDate); })
     .y(function(d) { return y(d.percentage); });
 
+    var numXTicks = 20; // Adjust this value to change the number of x-axis labels
+
     line_chart.append("g")
       .attr("class", "axis axis--x")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+      .call(d3.axisBottom(x).ticks(numXTicks));
 
     line_chart.append("g")
       .attr("class", "axis axis--y")
@@ -66,7 +68,7 @@ function draw_chart(data, labels, containerId, selectId) {
         .datum(equityData)
         .attr("fill", "none")
         .attr("stroke", colors[index % colors.length])
-        .attr("stroke-width", 1.5)
+        .attr("stroke-width", 2)
         .attr("d", line)
         .attr("id", "line_" + index);
     });
@@ -251,7 +253,6 @@ var commodities = ["BTC 指數", "WTI 原油", "Brent 布蘭特原油", "金(每
     d["天然氣 (MMBtu)"] = +d["天然氣 (MMBtu)"];
     return d;
   }).then(function(data) {
-    console.log(data); // Add this line to print the data to the console
     draw_chart(data, commodities, "#chart2", "#selectBoxContainer2");
   }).catch(function(error) {
     console.error("Error loading the data:", error);
