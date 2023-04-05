@@ -24,7 +24,16 @@ SOFTWARE.
 <:Window bind:innerWidth="winWidth" bind:scrollY="scrollY" />
 
 <div ref:container class="container">
+
   <div class="legend_container">
+
+    {{ #if $search_name }}
+    <div class="radar">
+      <b>時富雷達分數：{{ $cdb_data[$cdb_name_index[$search_name]]["時富雷達 (CR)"] }}</b>
+      <div class="bar" style="width: {{ 100 * (((($cdb_data[$cdb_name_index[$search_name]]['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])/($cdb_attrmax['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])) < 0) ? -1 * (($cdb_data[$cdb_name_index[$search_name]]['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])/($cdb_attrmax['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])) : (($cdb_data[$cdb_name_index[$search_name]]['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])/($cdb_attrmax['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)']))) }}%; background-color: {{$colors[Math.round($cdb_data[$cdb_name_index[$search_name]]['時富雷達 (CR)'])]}}"></div>
+    </div>
+    {{ /if }}
+
     <div class="legend">
 
 <div class="input">
@@ -41,7 +50,7 @@ SOFTWARE.
 </div>
       <div>
         <h4 class="heading">技術分析</h4>
-        <ul class="attribution_list {{(layer_hover != undefined && layer_hover_n < 4)? 'attribution_active' : ''}}" on:mouseout="set({layer_hover: undefined, pos_hover: undefined})">
+        <ul class="factors_1 attribution_list">
         <!-- initialize with cdb_attrmin -> the original data from store -->
           {{#each $tech_labels as label, i}}
             <li class="list-item">
@@ -68,9 +77,8 @@ SOFTWARE.
 
       <div>
         <h4 class="heading">基本分析</h4>
-        <div class="factors_bars">
-        <ul class="factors_1 attribution_list" on:mouseout="set({layer_hover: undefined, pos_hover: undefined})">
-        {{#each $fund_labels.slice(0, 3) as label, i}}
+        <ul class="factors_2 attribution_list">
+        {{#each $fund_labels as label, i}}
         <li class="list-item">
         <b><span>{{label}}: </span></b>
               {{#if $search_name}}
@@ -91,29 +99,6 @@ SOFTWARE.
         {{/each}}
         </ul>
 
-        <ul class="factors_2 attribution_list" on:mouseout="set({layer_hover: undefined, pos_hover: undefined})">
-        {{#each $fund_labels.slice(3, 6) as label, i}}
-        <li class=list-item>
-        <b><span>{{label}}: </span></b>
-              {{#if $search_name}}
-              <div
-                class="scent"
-                on:mouseenter="showHiddenTextbox(event)"
-                on:mouseleave="hideHiddenTextbox(event)"
-              >
-              <!-- Add a hidden text box with display: none; style -->
-              <div style="width: {{ 100 * (((($cdb_data[$cdb_name_index[$search_name]][label]-$cdb_attrmin[label])/($cdb_attrmax[label]-$cdb_attrmin[label])) < 0) ? -1 * (($cdb_data[$cdb_name_index[$search_name]][label]-$cdb_attrmin[label])/($cdb_attrmax[label]-$cdb_attrmin[label])) : (($cdb_data[$cdb_name_index[$search_name]][label]-$cdb_attrmin[label])/($cdb_attrmax[label]-$cdb_attrmin[label]))) }}%;">
-                <p class="hidden-textbox" style="display: none; position: relative;">
-                  {{(($cdb_data[$cdb_name_index[$search_name]][label] * 100) / 100).toFixed(2)}}
-                </p>
-              </div>
-              </div>
-              {{/if}}
-        </li>
-          {{/each}}
-        </ul>
-  </div>
-
 </div>
 </div>
 </div>
@@ -127,6 +112,20 @@ SOFTWARE.
 </div>
 
 <style> 
+
+.radar {
+  max-width: 1000px;
+  min-width: 700px;
+  margin: 0 auto 20px auto;
+}
+
+.radar .bar {
+  background-color: green;
+  width: 100%;
+  height: 20px;
+}
+
+
 .search-container {
   display: flex;
   align-items: center;
@@ -143,6 +142,7 @@ SOFTWARE.
   .container { 
     margin: 20px 0; 
   } 
+
   .legend_container { 
     margin: 0 10px; 
     width: 100%;
@@ -180,9 +180,10 @@ SOFTWARE.
 
   .legend {
     display: grid;
-    grid-template-columns: 0.5fr 1fr 2fr;
+    grid-template-columns: 0.5fr 1fr 1fr;
     grid-gap: 40px;
     max-width: 1000px;
+    min-width: 700px;
     margin: 0 auto 20px auto;
   }
 
@@ -226,24 +227,38 @@ SOFTWARE.
 
   .attribution_list { 
     font-size: 13px;
-    margin-top: -8px;
+    margin-top: -5px;
     width: 100%;
   }
 
   .attribution_list li { 
     cursor: pointer; 
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-column-gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 8px;
+    margin-top: -8px;
     margin-bottom: 0;
     text-transform: capitalize;
     width: 100%;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    font-size: 10px;
+    font-size: 12px;
+  }
+
+  @media (max-width: 767px) {
+    .attribution_list li {
+      margin-top: -6px;
+      font-size: 9px;
+    }
+  }
+
+  .radar .scent {
+    background: #000;
   }
  
   .attribution_list li:hover, .attribution_active li { color: #000; }
   .attribution_list li:hover .scent div, .attribution_active li .scent div { background: #666; }
+
+
 
   .factors_1 .scent div { background: #f4a582; }
   .factors_1 li:hover { color: #e66101; }
