@@ -9,7 +9,7 @@
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="https://rawgit.com/nstrayer/slid3r/master/dist/slid3r.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Libre+Franklin:300,400,600|Open+Sans:400,400i" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <style>
   .chart-container {
@@ -721,7 +721,7 @@ dt-article section > dt-code {
   .l-page,
   dt-article .l-page,
   dt-article.centered .l-page {
-    width: 984px;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
   }
@@ -1404,11 +1404,7 @@ pre[class*="language-"] {
 }
 </style>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <link rel="icon" type="image/svg" href="./pic/logo.png" >
-    <link href="/rss.xml" rel="alternate" type="application/rss+xml" title="Articles from Distill">
-    <link rel="canonical" href="http://distill.pub/about/">
-    <title>Distill</title>
-  
+    <link rel="icon" type="image/svg" href="images/logo.png" >
     <!--  https://schema.org/Article -->
     <meta property="article:published" itemprop="datePublished" content="NaN-NaN-NaN">
     <meta property="article:created" itemprop="dateCreated" content="Invalid Date">
@@ -1512,13 +1508,13 @@ dt-header .nav a {
 </style>
 
 <div class="content l-page">
-  <a href="/" class="logo min1080">
+  <a href="https://www.cfsg.com.hk/" class="logo min1080">
     <img src = "./images/cfsg.svg" width=190>
   </a>
   <div class="nav">
-    <a href="/">主頁</a>
-    <a href="/">宏觀經濟</a>
-    <a href="https://angold4.org/radar">雷達</a>
+    <a href="https://angold4.org/index-radar/">主頁</a>
+    <a href="https://angold4.org/index-radar/">宏觀經濟</a>
+    <a href="https://angold4.org/radar/">雷達</a>
   </div>
 </div>
 </dt-header>
@@ -1528,16 +1524,16 @@ dt-header .nav a {
       <div class="illustration title"></div>
       <span><b>時富金融研究部</b></span>
   </h1>
-
 </div>
+
 <div class="actions l-screen">
   <div class="content l-page">
-    <a href="https://angold4.org/radar">
+    <a href="https://angold4.org/radar/">
       <div class="illustration journal">
       </div>
       <h3>時富雷達</h3>
     </a>
-    <a href="/">
+    <a href="https://angold4.org/index-radar/">
       <div class="illustration prize"></div>
       <h3>互動區</h3>
     </a>
@@ -1551,40 +1547,37 @@ dt-header .nav a {
   </div>
 </div>
 
-<script src="chart.js"></script>
+<div id="example-table"></div>
 
 <section class="modern-medium">
-  <div class="chart-container">
+  <div class="chart-container columns l-page">
     <div class="chart-header">
       <h2>股價指數</h2>
       <div id="selectBoxContainer"></div>
     </div>
     <figure id="chart">
-        <div id='chart'></div>
     </figure>
   </div>
 </section>
 
 <section class="modern-medium">
-  <div class="chart-container">
+  <div class="chart-container columns l-page">
     <div class="chart-header">
       <h2>大宗商品</h2>
       <div id="selectBoxContainer2"></div>
     </div>
     <figure id="chart2">
-        <div id='chart2'></div>
     </figure>
   </div>
 </section>
 
 <section class="modern-medium">
   <div class="chart-container">
-    <div class="chart-header">
-      <h2>債卷</h2>
-    </div>
     <figure>
         <div id='bond'></div>
-        <script src="bond.js"></script>
+    </figure>
+    <figure>
+        <div id='bond2'></div>
     </figure>
   </div>
 </section>
@@ -1638,295 +1631,7 @@ dt-header .nav a {
 </section>
 -->
 
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script>
-"use strict";
-(function() {
-
-  function appendArrowhead(selection) {
-    selection.append("marker")
-        .attr("id", "arrowhead")
-        .attr("viewBox", "0 -5 10 10")
-        .attr("refX", 5)
-        .attr("refY", 0)
-        .attr("markerWidth", 10)
-        .attr("markerHeight", 10)
-        .attr("orient", "auto")
-      .append("path")
-        .attr("d", "M0,-5L5,0L0,5")
-        .style("fill", "none")
-        .style("stroke", "grey");
-  }
-
-  var vectorScale = d3.scaleLinear()
-      .domain([0, 1])
-      .range([-14, 14]);
-
-  var memoryData = [
-    {x: 0.9, y: 0.9},
-    {x: 0.8, y: 0.8},
-    {x: 0.1, y: 0.9},
-    {x: 0.4, y: 0.2},
-    {x: 0.2, y: 0.2},
-    {x: 0.4, y: 0.3},
-    {x: 0.1, y: 0.5}
-  ];
-
-  var writeData = {x: 0.9, y: 0};
-  var nodeWidth = 36;
-
-  //
-  // Write
-  //
-
-  var writeHtml = d3.selectAll("#rnn-write");
-  var writeSvg = writeHtml.select("svg");
-  var writeMemory = writeSvg.selectAll("#memory use");
-  var writeMemoryBBox = writeSvg.select("#memory").node().getBBox();
-  var writeNewMemory = writeSvg.selectAll("#new-memory use");
-  var writeNewMemoryBBox = writeSvg.select("#new-memory").node().getBBox();
-  var writeAttention = writeSvg.selectAll("#attention use");
-  var writeAttentionBBox = writeSvg.select("#attention").node().getBBox();
-  var writePath = writeSvg.selectAll("#paths path");
-  var writeResult = writeSvg.select("#write-result").style("opacity", 0);
-  var writeResultBBox = writeResult.node().getBBox();
-  var newMemoryData = memoryData.map(function(){ return {}; });
-
-  appendArrowhead(writeSvg);
-  var writeArrow = writeSvg.append("line")
-      .attr("class", "write-line")
-      .attr("marker-end", "url(#arrowhead)")
-      .style("stroke", "grey")
-      .attr("transform", "translate(" + (writeResultBBox.x + writeResultBBox.width / 2 - vectorScale(writeData.x) / 2) + ", " + (writeResultBBox.y + writeResultBBox.width / 2 - vectorScale(writeData.y) / 2) + ")")
-      .attr("x2", vectorScale(writeData.x))
-      .attr("y2", vectorScale(writeData.y));
-
-  writeMemory.data(memoryData)
-    .each(function(d, i) {
-      this.style.opacity = 0;
-      d.top = writeMemoryBBox.y;
-      d.left = writeMemoryBBox.x + i * nodeWidth;
-      d.width = nodeWidth;
-    });
-
-  var writeMemoryVectors = writeSvg.selectAll(".vector")
-      .data(memoryData)
-    .enter().append("line")
-      .attr("class", "vector")
-      .attr("transform", function(d) {
-        return "translate(" + (d.left + d.width / 2 - vectorScale(d.x) / 2) + ", " + (d.top + d.width / 2 - vectorScale(d.y) / 2) + ")";
-      })
-      .attr("x2", function(d) { return  vectorScale(d.x); })
-      .attr("y2", function(d) { return  vectorScale(d.y); })
-      .attr("marker-end", "url(#arrowhead)")
-      .style("stroke", "grey");
-
-  writeNewMemory.data(newMemoryData)
-    .each(function(d, i) {
-      this.style.opacity = 0;
-      d.top = writeNewMemoryBBox.y;
-      d.left = writeNewMemoryBBox.x + i * nodeWidth;
-      d.width = nodeWidth;
-    });
-
-  var writeNewMemoryVectors = writeSvg.selectAll(".new-vector")
-      .data(newMemoryData)
-    .enter().append("line")
-      .attr("class", "new-vector")
-      .attr("marker-end", "url(#arrowhead)")
-      .style("stroke", "grey");
-
-  function updateWriteAttention(data) {
-    newMemoryData.forEach(function(d, i) {
-      d.x = (memoryData[i].x + writeData.x * data[i]) / (1 + data[i]);
-      d.y = (memoryData[i].y + writeData.y * data[i]) / (1 + data[i]);
-    });
-    writeNewMemoryVectors
-        .attr("transform", function(d) {
-          return "translate(" + (d.left + d.width / 2 - vectorScale(d.x) / 2) + ", " + (d.top + d.width / 2 - vectorScale(d.y) / 2) + ")";
-        })
-        .attr("x2", function(d) { return  vectorScale(d.x); })
-        .attr("y2", function(d) { return  vectorScale(d.y); });
-
-    writeAttention.data(data)
-        .style("opacity", function(d) { return  d + 0.05; });
-
-    writePath.data(data)
-        .style("stroke-opacity", function(d) { return  d + 0.1; });
-  }
-
-  writeHtml.on("mousemove", function() {
-    var data = [];
-    writeAttention.each(function() {
-      var bbox = this.getBoundingClientRect()
-      var distance = Math.abs(bbox.left - d3.event.clientX + bbox.width / 2);
-      data.push(Math.exp(-distance / 25));
-    });
-    data = data.map(function(d) { return  d / d3.sum(data); });
-    updateWriteAttention(data);
-  });
-
-  var initWriteData = d3.range(writeAttention.size()).map(function(d) { return  Math.exp(-d); });
-  initWriteData = initWriteData.map(function(d) { return  d / d3.sum(initWriteData); });
-  updateWriteAttention(initWriteData);
-
-})();
-</script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-83741880-1', 'auto');
-  ga('send', 'pageview');
-</script>
-  <style>
-    dt-cite {
-      color: hsla(206, 90%, 20%, 0.7);
-    }
-    dt-cite .citation-number {
-      cursor: default;
-      white-space: nowrap;
-      font-family: -apple-system, BlinkMacSystemFont, "Roboto", Helvetica, sans-serif;
-      font-size: 75%;
-      color: #FFA500;
-      display: inline-block;
-      line-height: 1.1em;
-      text-align: center;
-      position: relative;
-      top: -2px;
-      margin: 0 2px;
-    }
-    figcaption dt-cite .citation-number {
-      font-size: 11px;
-      font-weight: normal;
-      top: -2px;
-      line-height: 1em;
-    }
-  </style><div id="cite-hover-boxes-container"></div><div id="footnote-hover-boxes-container"></div><script>
-
-function nodeFromString(str) {
-  var div = document.createElement("div");
-  div.innerHTML = str;
-  return div.firstChild;
-}
-
-function make_hover_css(pos) {
-  var pretty = window.innerWidth > 600;
-  var padding = pretty? 18 : 12;
-  var outer_padding = pretty ? 18 : 0;
-  var bbox = document.querySelector("body").getBoundingClientRect();
-  var left = pos[0] - bbox.left, top = pos[1] - bbox.top;
-  var width = Math.min(window.innerWidth-2*outer_padding, 648);
-  left = Math.min(left, window.innerWidth-width-outer_padding);
-  width = width - 2*padding;
-  return (`position: absolute;
-     background-color: #FFF;
-     opacity: 0.95;
-     max-width: ${width}px;
-     top: ${top}px;
-     left: ${left}px;
-     border: 1px solid rgba(0, 0, 0, 0.25);
-     padding: ${padding}px;
-     border-radius: ${pretty? 3 : 0}px;
-     box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.2);
-     z-index: ${1e6};`);
-}
-
-
-function DtHoverBox(div_id) {
-  this.div = document.querySelector("#"+div_id);
-  this.visible = false;
-  this.bindDivEvents();
-  DtHoverBox.box_map[div_id] = this;
-}
-
-DtHoverBox.box_map = {};
-
-DtHoverBox.get_box = function get_box(div_id) {
-  if (div_id in DtHoverBox.box_map) {
-    return DtHoverBox.box_map[div_id];
-  } else {
-    return new DtHoverBox(div_id);
-  }
-}
-
-DtHoverBox.prototype.show = function show(pos){
-  this.visible = true;
-  this.div.setAttribute("style", make_hover_css(pos) );
-  for (var box_id in DtHoverBox.box_map) {
-    var box = DtHoverBox.box_map[box_id];
-    if (box != this) box.hide();
-  }
-}
-
-DtHoverBox.prototype.showAtNode = function showAtNode(node){
-    var bbox = node.getBoundingClientRect();
-    this.show([bbox.right, bbox.bottom]);
-}
-
-DtHoverBox.prototype.hide = function hide(){
-  this.visible = false;
-  if (this.div) this.div.setAttribute("style", "display:none");
-  if (this.timeout) clearTimeout(this.timeout);
-}
-
-DtHoverBox.prototype.stopTimeout = function stopTimeout() {
-  if (this.timeout) clearTimeout(this.timeout);
-}
-
-DtHoverBox.prototype.extendTimeout = function extendTimeout(T) {
-  //console.log("extend", T)
-  var this_ = this;
-  this.stopTimeout();
-  this.timeout = setTimeout(function(){this_.hide();}.bind(this), T);
-}
-
-// Bind events to a link to open this box
-DtHoverBox.prototype.bind = function bind(node) {
-  if (typeof node == "string"){
-    node = document.querySelector(node);
-  }
-
-  node.addEventListener("mouseover", function(){
-    if (!this.visible) this.showAtNode(node);
-    this.stopTimeout();
-  }.bind(this));
-
-  node.addEventListener("mouseout", function(){this.extendTimeout(250);}.bind(this));
-
-  node.addEventListener("touchstart", function(e) {
-    if (this.visible) {
-      this.hide();
-    } else {
-      this.showAtNode(node);
-    }
-    // Don't trigger body touchstart event when touching link
-    e.stopPropagation();
-  }.bind(this));
-}
-
-DtHoverBox.prototype.bindDivEvents = function bindDivEvents(){
-  // For mice, same behavior as hovering on links
-  this.div.addEventListener("mouseover", function(){
-    if (!this.visible) this.showAtNode(node);
-    this.stopTimeout();
-  }.bind(this));
-  this.div.addEventListener("mouseout", function(){this.extendTimeout(250);}.bind(this));
-
-  // Don't trigger body touchstart event when touching within box
-  this.div.addEventListener("touchstart", function(e){e.stopPropagation();});
-  // Close box when touching outside box
-  document.body.addEventListener("touchstart", function(){this.hide();}.bind(this));
-}
-
-var hover_es = document.querySelectorAll("span[data-hover-ref]");
-hover_es = [].slice.apply(hover_es);
-hover_es.forEach(function(e,n){
-  var ref_id = e.getAttribute("data-hover-ref");
-  DtHoverBox.get_box(ref_id).bind(e);
-})
-</script><dt-footer>
+<dt-footer>
 <style>
 dt-footer {
   display: block;
@@ -1966,13 +1671,13 @@ dt-footer .nav a {
 
 <div class="l-page">
   <div class="description">
-  <a href="/" class="logo">
+  <a href="https://angold4.org/index-radar/" class="logo">
     copyright
   </a>
-    CR 2023.  All rights reserved.
+    CFSG 2023.  All rights reserved.
   </div>
   <div class="nav">
     &nbsp;&nbsp;&nbsp;&nbsp;
   </div>
 </div>
-</dt-footer></body></html>
+</dt-footer><script defer src="index.bundle.js"></script></body></html>

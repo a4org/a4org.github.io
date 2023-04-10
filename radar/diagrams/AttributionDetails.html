@@ -28,9 +28,12 @@ SOFTWARE.
   <div class="legend_container">
 
     {{ #if $search_name }}
+    <div class="radar-score">
+    <div></div>
     <div class="radar">
       <b>時富雷達分數：{{ $cdb_data[$cdb_name_index[$search_name]]["時富雷達 (CR)"] }}</b>
       <div class="bar" style="width: {{ 100 * (((($cdb_data[$cdb_name_index[$search_name]]['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])/($cdb_attrmax['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])) < 0) ? -1 * (($cdb_data[$cdb_name_index[$search_name]]['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])/($cdb_attrmax['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])) : (($cdb_data[$cdb_name_index[$search_name]]['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])/($cdb_attrmax['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)']))) }}%; background-color: {{$colors[Math.round($cdb_data[$cdb_name_index[$search_name]]['時富雷達 (CR)'])]}}"></div>
+    </div>
     </div>
     {{ /if }}
 
@@ -216,6 +219,15 @@ SOFTWARE.
     padding-bottom: 8px;
     margin: 0 0 10px;
     font-weight: 700;
+  }
+
+  .radar-score {
+    max-width: 1000px;
+    min-width: 700px;
+    display: grid;
+    grid-template-columns: 0.5fr 3.5fr;
+    grid-gap: 40px;
+    margin: 0 auto 20px auto;
   }
 
   .factors_bars {
