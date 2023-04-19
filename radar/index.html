@@ -329,6 +329,40 @@ d-article .content {
  width:440px;
  height:400px
 }
+
+.data-table {
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  table-layout: auto; /* Adjust column widths based on the content */
+}
+
+.data-table thead {
+  background-color: #f2f2f2;
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  white-space: nowrap; /* Prevent any text wrapping inside the table cells */
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.data-table tr:hover {
+  background-color: #ddd;
+}
+
+.data-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
 </style>
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
@@ -397,6 +431,14 @@ dt-header .nav a {
   margin-left: 24px;
   text-transform: uppercase;
 }
+table {
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid black;
+  padding: 5px;
+  text-align: left;
+}
 </style>
 </head>
 
@@ -425,5 +467,6 @@ dt-header .nav a {
     <svg viewBox="0 0 640 560" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="clevr-plot" transform="translate(52, 0)"><circle cx="300" cy="260" r="260" stroke="#00FF00" stroke-width="2" fill="black"></circle><rect id="bbx" x="125" y="75" width="375" height="375" stroke="none" stroke-width="1" fill="none"></rect><circle cx="300" cy="260" r="200" stroke="#00FF00" stroke-width="1" fill="none"></circle><circle cx="300" cy="260" r="130" stroke="#00FF00" stroke-width="1" fill="none"></circle><circle cx="300" cy="260" r="65" stroke="#00FF00" stroke-width="1" fill="none"></circle><circle cx="300" cy="260" r="200" stroke="#00FF00" stroke-width="1" fill="none"></circle><circle cx="300" cy="260" r="130" stroke="#00FF00" stroke-width="1" fill="none"></circle><circle cx="300" cy="260" r="65" stroke="#00FF00" stroke-width="1" fill="none"></circle><line x1="300" y1="110" x2="300" y2="410" stroke="#00FF00" stroke-width="1"></line><line x1="40" y1="260" x2="560" y2="260" stroke="#00FF00" stroke-width="1"></line><line x1="165" y1="135" x2="435" y2="385" stroke="#00FF00" stroke-width="1"></line><line x1="165" y1="385" x2="435" y2="135" stroke="#00FF00" stroke-width="1"></line><path id="x-axis" d="M 0 260 L 600 260" class="figure-path" style="stroke-width: 1px; stroke: #666;"></path><text id="x-axis-label" x="300" y="440" dy="0.4em" text-anchor="middle" style="font-family: serif;" class="figure-text">γ</text><path d="M 300 110 L 300 410" id="y-axis" class="figure-path" style="stroke-width: 1px; stroke: #666;"></path><text id="y-axis-label" x="10" y="260" dy="1em" text-anchor="middle" style="font-family: serif;" class="figure-text">β</text></g><text x="0" y="500" dy="1em" class="figure-text" text-anchor="start"> 時富雷達分數 (1 to 9) </text><path d="M 0 520 L 125 520" stroke="#666" stroke-width="1" marker-end="url(#arrowhead)"></path><g transform="translate(6, 545)" id="clevr-legend"></g><g id="reset-zoom-group"><image id="reset-zoom-button" x="150" y="500" height="27" width="27" xlink:href="images/pointer.svg"></image></g><rect x="510" y="525" width="120" height="25" stroke="#666" stroke-width="1" fill="none"></rect><rect x="510" y="485" width="120" height="25" stroke="#666" stroke-width="1" fill="none"></rect><foreignObject x="510" y="485" width="125" height="65"><div xmlns="http://www.w3.org/1999/xhtml"><select id="select1" class="custom-select"></select><select id="select2" class="custom-select"></select></div></foreignObject><defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7"></polygon></marker></defs></svg>
   </figure>
   <d-figure id="AttributionDetails" style="grid-column: screen;"></d-figure>
+  <div id="table-container"></div>
 </d-article>
 <script type="text/javascript" src="index.bundle.js"></script></body>

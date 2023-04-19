@@ -28,12 +28,9 @@ SOFTWARE.
   <div class="legend_container">
 
     {{ #if $search_name }}
-    <div class="radar-score">
-    <div></div>
     <div class="radar">
       <b>時富雷達分數：{{ $cdb_data[$cdb_name_index[$search_name]]["時富雷達 (CR)"] }}</b>
       <div class="bar" style="width: {{ 100 * (((($cdb_data[$cdb_name_index[$search_name]]['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])/($cdb_attrmax['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])) < 0) ? -1 * (($cdb_data[$cdb_name_index[$search_name]]['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])/($cdb_attrmax['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])) : (($cdb_data[$cdb_name_index[$search_name]]['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)'])/($cdb_attrmax['時富雷達 (CR)']-$cdb_attrmin['時富雷達 (CR)']))) }}%; background-color: {{$colors[Math.round($cdb_data[$cdb_name_index[$search_name]]['時富雷達 (CR)'])]}}"></div>
-    </div>
     </div>
     {{ /if }}
 
@@ -106,6 +103,7 @@ SOFTWARE.
 </div>
 </div>
   {{#if $category == 'stock'}}
+  <table class="stock-table" id="st"></table>
   {{#each $img_name as img, i}}
     <div class="pictures_container">
     <img src="data/gc/stock/graph/{{$cdb_name_index[$search_name]}}/{{img}}.png" alt="Picture 1" class="picture" />
